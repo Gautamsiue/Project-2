@@ -1,19 +1,19 @@
-Create a Conda Environment:
+## Create a Conda Environment:
 Open the terminal or command prompt and run the following command to create a new Conda environment:
    conda create --name my_env python=3.8
 
-Activate the Conda Environment:
+## Activate the Conda Environment:
 Activate the created Conda environment using:
     conda activate my_env
 
-Install Required Packages:
+## Install Required Packages:
 Inside the activated environment, install the  packages using the following commands:
      conda install beautifulsoup4
 
 
-Choose the praw for Reddit API access, to install it use:
+## Choose the praw for Reddit API access, to install it use:
       conda install praw
 
-Run the Script:
+## Run the Script:
 Save the provided Python script ( reddit_comments_extractor.py) and execute it using the following command:
       python reddit_comments_extractor.py
