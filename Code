@@ -1,4 +1,5 @@
 from bs4 import BeautifulSoup
+import sys
 
 def extract_comments_from_file(file_path):
     with open(file_path, 'r', encoding='utf-8') as file:
@@ -17,17 +18,23 @@ def extract_comments_from_file(file_path):
     return extracted_comments
 
 def main():
-    dump_file_path = 'Path to the text dump file'
+    if len(sys.argv) != 2:
+        print("Usage: python extract_comments.py <input_file_path>")
+        sys.exit(1)
+
+    dump_file_path = sys.argv[1]
 
     try:
         comments = extract_comments_from_file(dump_file_path)
 
         if not comments:
+            # If comments are not found, modify.
             new_url = "https://old.reddit.com" + dump_file_path.split("www.reddit.com")[1]
             print(f"Comments not found. Trying with the new URL: {new_url}")
             comments = extract_comments_from_file(new_url)
 
         if comments:
+            # Save extracted comments to a new text file
             with open('extracted_comments.txt', 'w', encoding='utf-8') as output_file:
                 output_file.write('\n\n'.join(comments))
             
