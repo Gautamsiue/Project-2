@@ -1,0 +1,42 @@
+from bs4 import BeautifulSoup
+
+def extract_comments_from_file(file_path):
+    with open(file_path, 'r', encoding='utf-8') as file:
+        content = file.read()
+
+    soup = BeautifulSoup(content, 'html.parser')
+
+    # Extract comments based on HTML structure
+    comments = soup.find_all('div', class_='comment') 
+
+    extracted_comments = []
+    for comment in comments:
+        comment_text = comment.get_text(strip=True)
+        extracted_comments.append(comment_text)
+
+    return extracted_comments
+
+def main():
+    dump_file_path = 'Path to the text dump file'
+
+    try:
+        comments = extract_comments_from_file(dump_file_path)
+
+        if not comments:
+            new_url = "https://old.reddit.com" + dump_file_path.split("www.reddit.com")[1]
+            print(f"Comments not found. Trying with the new URL: {new_url}")
+            comments = extract_comments_from_file(new_url)
+
+        if comments:
+            with open('extracted_comments.txt', 'w', encoding='utf-8') as output_file:
+                output_file.write('\n\n'.join(comments))
+            
+            print("Comments extracted successfully and saved to 'extracted_comments.txt'")
+        else:
+            print("Unable to extract comments.")
+
+    except Exception as e:
+        print(f"An error occurred: {str(e)}")
+
+if __name__ == "__main__":
+    main()
